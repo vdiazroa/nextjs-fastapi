@@ -45,7 +45,7 @@ const Main: FC = () => {
     return <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
         <Link href="/api/cards">
         click </Link>
-        {cards.map(card => <Card card={card} />)}
+        {cards.map(card => <Card card={card} key={card} />)}
         {loading ? "loading...." : <button
             onClick={async () => {
                 await fetch(reading ? "/api/cards/stop" : "/api/cards/start")
