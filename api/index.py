@@ -21,7 +21,10 @@ card_codes = []
 cards_to_read = 0
 
 def read_cards():
-    print("### 0")
+    print("### len(rfids)", len(rfids))
+    print("### cards_to_read", cards_to_read)
+    print("### <", len(rfids) < cards_to_read)
+    print("### >", cards_to_read > 0)
     while len(rfids) < cards_to_read and cards_to_read > 0:
         print("### 1")
         id, text = rfid.read()
