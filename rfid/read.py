@@ -22,6 +22,7 @@ class Scanner:
                 self.rfids.append(id)
                 self.card_codes.append(text)
                 print(self.card_codes)
+                f = open("cards.txt", "w")
                 f.write('\n'.join(self.card_codes))
                 f.close()
                 time.sleep(.1)
