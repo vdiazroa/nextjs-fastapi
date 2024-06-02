@@ -30,6 +30,7 @@ class Scanner:
         while len(self.rfids) < self.cards_to_read and self.cards_to_read > 0:
             print("### 1")
             id, text = rfid.read()
+            print("### id",id,text)
             if not id in rfids:
                 print("### 2")
                 self.rfids.append(id)
@@ -43,6 +44,14 @@ class Scanner:
         self.rfids = []
         self.card_codes = []
         self.cards_to_read = cards
+
+
+    def get_card_codes(self):
+        return self.card_codes
+
+    def get_reading(self):
+        return len(self.card_codes) < self.cards_to_read
+
 
 scanner = Scanner()
 
@@ -62,6 +71,6 @@ def stop_reading():
 
 @app.get("/api/cards")
 def get_cards():
-    return {"status": 200, "cards": scanner.card_codes, "reading": len(scanner.card_codes) < scanner.cards_to_read }
+    return {"status": 200, "cards": scanner.get_card_codes, "reading": scanner.get_reading }
 
 
