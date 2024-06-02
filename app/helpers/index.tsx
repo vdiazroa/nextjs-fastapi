@@ -1,6 +1,4 @@
 import { FC, useEffect, useState } from "react"
-import Image from "next/image";
-import Link from "next/link";
 
 const Main: FC = () => {
     const [loading, setLoading] = useState<boolean>(true)
@@ -9,12 +7,11 @@ const Main: FC = () => {
 
 
     const Card: FC<{ card: string }> = ({ card }) => {
-        return <Image
+        return <img
             src={`https://optcgplayer.com/images/EN/${card}.png`}
             alt={card}
             // className="dark:invert"
-            height={42}
-            width={30}
+            width={"30px"}
         />
     }
 
@@ -31,7 +28,7 @@ const Main: FC = () => {
         setReading(reading)
 
         if (reading) {
-            await new Promise((res) => { setTimeout(() => res(true), 5000) })
+            await new Promise((res) => { setTimeout(() => res(true), 1000) })
             getCards()
         }
     }
@@ -43,8 +40,6 @@ const Main: FC = () => {
     }, [])
 
     return <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <Link href="/api/cards">
-        click </Link>
         {cards.map(card => <Card card={card} key={card} />)}
         {loading ? "loading...." : <button
             onClick={async () => {
