@@ -45,7 +45,7 @@ const Main: FC = () => {
         <Link href="/api/cards">
         click </Link>
         {cards.map(card => <Card card={card} />)}
-        {!loading ? "loading...." : <button
+        {loading ? "loading...." : <button
             onClick={async () => {
                 await fetch(reading ? "/api/cards/stop" : "/api/cards/start?cards=5")
                 setReading(!reading)
