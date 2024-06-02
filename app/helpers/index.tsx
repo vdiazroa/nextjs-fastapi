@@ -12,6 +12,7 @@ const Main: FC = () => {
             alt={card}
             // className="dark:invert"
             width={"30px"}
+            height={"45px"}
         />
     }
 
@@ -43,6 +44,7 @@ const Main: FC = () => {
         getCards()
     })
 
+    console.log("cards", cards)
     return <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
         {cards.map(card => <Card card={card} key={card} />)}
         {loading ? "loading...." : <button
