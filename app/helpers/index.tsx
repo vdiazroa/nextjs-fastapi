@@ -20,10 +20,13 @@ const Main: FC = () => {
     const getCards = async () => {
         console.log("#### fetching cards")
         const res = await fetch("/api/cards")
-        console.log("####",res)
-        const { cards, reading } = (await res.json())
-        serCards(cards)
+        console.log("#### res",res)
+        const json = (await res.json())
+        console.log("#### json ",json)
         setLoading(false)
+
+        const { cards, reading } = json
+        serCards(cards)
         setReading(reading)
 
         if (reading) {
