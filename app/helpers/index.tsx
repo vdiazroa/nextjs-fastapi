@@ -13,6 +13,7 @@ const Main: FC = () => {
             src={`https://optcgplayer.com/images/EN/${card}.png`}
             alt={card}
             // className="dark:invert"
+            height={42}
             width={30}
         />
     }
