@@ -30,7 +30,7 @@ const Main: FC = () => {
         setReading(reading)
 
         if (reading) {
-            await new Promise((res) => { setTimeout(() => res(true), 500) })
+            await new Promise((res) => { setTimeout(() => res(true), 5000) })
             getCards()
         }
     }
