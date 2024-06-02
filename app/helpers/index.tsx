@@ -28,33 +28,39 @@ const Main: FC = () => {
             serCards(cards.map(card => card.toUpperCase()))
         }
         if (readingRes !== reading) {
-            setReading(readingRes) }
-
-            if (reading) {
-                await new Promise((res) => { setTimeout(() => res(true), 1000) })
-                getCards()
-            }
+            setReading(readingRes)
         }
 
-
-
-        useEffect(() => {
+        if (reading) {
+            await new Promise((res) => { setTimeout(() => res(true), 1000) })
             getCards()
-        }, [])
-
-        return <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-            {cards.map(card => <Card card={card} key={card} />)}
-            {loading ? "loading...." : <button
-                onClick={async () => {
-                    await fetch(reading ? "/api/cards/stop" : "/api/cards/start")
-                    setReading(!reading)
-                    if (reading) { getCards() }
-                }
-                } >
-                {reading ? "Stop" : "Start"}
-            </button>}
-        </div>
-
+        }
     }
 
-    export default Main
+
+
+    useEffect(() => {
+        getCards()
+    })
+
+    return <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+        {cards.map(card => <Card card={card} key={card} />)}
+        {loading ? "loading...." : <button
+            onClick={async () => {
+                try {
+                    await fetch(reading ? "/api/cards/stop" : "/api/cards/start")
+                }
+                catch (e) {
+                    console.error(e)
+                }
+                setReading(!reading)
+                if (reading) { getCards() }
+            }
+            } >
+            {reading ? "Stop" : "Start"}
+        </button>}
+    </div>
+
+}
+
+export default Main
