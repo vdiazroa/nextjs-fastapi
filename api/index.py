@@ -71,6 +71,9 @@ def stop_reading():
 
 @app.get("/api/cards")
 def get_cards():
+    print("#### get_cards 0")
+    print("#### get_cards 1",scanner.get_card_codes)
+    print("#### get_cards 2",scanner.get_reading)
     return {"status": 200, "cards": scanner.get_card_codes, "reading": scanner.get_reading }
 
 
