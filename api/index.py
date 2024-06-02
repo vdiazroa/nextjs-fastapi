@@ -21,9 +21,12 @@ card_codes = []
 cards_to_read = 0
 
 def read_cards():
+    console.log("### 0")
     while len(rfids) < cards_to_read and cards_to_read > 0:
+    console.log("### 1")
         id, text = rfid.read()
         if not id in rfids:
+        console.log("### 2")
             rfids.append(id)
             print("text", text)
             card_codes.append(text)
@@ -31,6 +34,7 @@ def read_cards():
             time.sleep(.1)
 
 def set_cards(cards: int = 0):
+    console.log("### cards", cards)
     rfids = []
     card_codes = []
     cards_to_read = cards
