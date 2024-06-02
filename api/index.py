@@ -26,7 +26,7 @@ def read_cards():
         print("### 1")
         id, text = rfid.read()
         if not id in rfids:
-        print("### 2")
+            print("### 2")
             rfids.append(id)
             print("text", text)
             card_codes.append(text)
