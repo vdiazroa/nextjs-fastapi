@@ -47,7 +47,7 @@ const Main: FC = () => {
         {cards.map(card => <Card card={card} />)}
         {loading ? "loading...." : <button
             onClick={async () => {
-                await fetch(reading ? "/api/cards/stop" : "/api/cards/start?cards=5")
+                await fetch(reading ? "/api/cards/stop" : "/api/cards/start")
                 setReading(!reading)
                 if (reading) { getCards() }
             }

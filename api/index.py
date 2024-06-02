@@ -58,9 +58,9 @@ scanner = Scanner()
 app = FastAPI()
 
 @app.get("/api/cards/start")
-def start_reading(cards: int = 5):
+def start_reading():
     print("### start_reading")
-    scanner.set_cards(cards)
+    scanner.set_cards(5)
     print("### read_cards")
     scanner.read_cards()
     print("### read_cards 2")
