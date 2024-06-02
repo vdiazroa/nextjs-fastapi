@@ -50,6 +50,6 @@ def stop_reading():
 
 @app.get("/api/cards")
 def get_cards():
-    return {"status": 200, cards: card_codes, reading: len(card_codes) < cards_to_read }
+    return {"status": 200, "cards": card_codes, "reading": len(card_codes) < cards_to_read }
 
 
