@@ -31,7 +31,7 @@ class Scanner:
             print("### 1")
             id, text = rfid.read()
             print("### id",id,text)
-            if not id in rfids:
+            if not id in self.rfids:
                 print("### 2")
                 self.rfids.append(id)
                 print("text", text)
