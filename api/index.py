@@ -23,7 +23,7 @@ cards_to_read = 0
 def read_cards():
     print("### 0")
     while len(rfids) < cards_to_read and cards_to_read > 0:
-    print("### 1")
+        print("### 1")
         id, text = rfid.read()
         if not id in rfids:
         print("### 2")
