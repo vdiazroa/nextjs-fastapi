@@ -39,7 +39,8 @@ app = FastAPI()
 
 @app.get("/api/cards/start")
 def start_reading(cards: int = 5):
-    read_cards(cards)
+    set_cards(cards)
+    read_cards()
     return {"status": 200}
 
 
