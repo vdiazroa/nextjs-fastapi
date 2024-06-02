@@ -54,15 +54,17 @@ class Scanner:
 
 
 scanner = Scanner()
+scanner.set_cards(5)
+scanner.read_cards()
 
 app = FastAPI()
 
 @app.get("/api/cards/start")
 def start_reading():
     print("### start_reading")
-    scanner.set_cards(5)
+    # scanner.set_cards(5)
     print("### read_cards")
-    scanner.read_cards()
+    # scanner.read_cards()
     print("### read_cards 2")
 
     return {"status": 200}
@@ -70,7 +72,7 @@ def start_reading():
 
 @app.get("/api/cards/stop")
 def stop_reading():
-    scanner.set_cards()
+    scanner.set_cards(5)
     return {"status": 200}
 
 @app.get("/api/cards")
