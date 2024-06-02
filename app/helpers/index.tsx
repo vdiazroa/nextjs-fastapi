@@ -18,40 +18,43 @@ const Main: FC = () => {
     const getCards = async () => {
         console.log("#### fetching cards")
         const res = await fetch("/api/cards")
-        console.log("#### res",res)
+        console.log("#### res", res)
         const json = (await res.json())
-        console.log("#### json ",json)
+        console.log("#### json ", json)
         setLoading(false)
 
-        const { cards, reading } = json
-        serCards(cards)
-        setReading(reading)
-
-        if (reading) {
-            await new Promise((res) => { setTimeout(() => res(true), 1000) })
-            getCards()
+        const { cards: cardsResponse, reading: readingRes } = json
+        if (cardsResponse.length !== cards.length) {
+            serCards(cards.map(card => card.toUpperCase()))
         }
+        if (readingRes !== reading) {
+            setReading(readingRes) }
+
+            if (reading) {
+                await new Promise((res) => { setTimeout(() => res(true), 1000) })
+                getCards()
+            }
+        }
+
+
+
+        useEffect(() => {
+            getCards()
+        }, [])
+
+        return <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+            {cards.map(card => <Card card={card} key={card} />)}
+            {loading ? "loading...." : <button
+                onClick={async () => {
+                    await fetch(reading ? "/api/cards/stop" : "/api/cards/start")
+                    setReading(!reading)
+                    if (reading) { getCards() }
+                }
+                } >
+                {reading ? "Stop" : "Start"}
+            </button>}
+        </div>
+
     }
 
-
-
-    useEffect(() => {
-        getCards()
-    }, [])
-
-    return <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        {cards.map(card => <Card card={card} key={card} />)}
-        {loading ? "loading...." : <button
-            onClick={async () => {
-                await fetch(reading ? "/api/cards/stop" : "/api/cards/start")
-                setReading(!reading)
-                if (reading) { getCards() }
-            }
-            } >
-            {reading ? "Stop" : "Start"}
-        </button>}
-    </div>
-
-}
-
-export default Main
+    export default Main
