@@ -16,27 +16,17 @@ class Scanner:
         self.cards_to_read = 0
 
     def read_cards(self):
-        print("### len(rfids)", len(self.rfids))
-        print("### cards_to_read", self.cards_to_read)
-        print("### <", len(self.rfids) < self.cards_to_read)
-        print("### >", self.cards_to_read > 0)
         while len(self.rfids) < self.cards_to_read and self.cards_to_read > 0:
-            print("### 1")
             id, text = rfid.read()
-            print("### id",id,text)
             if not id in self.rfids:
-                print("### 2")
                 self.rfids.append(id)
-                print("text", text)
                 self.card_codes.append(text)
                 print(self.card_codes)
-                f = open("cards.txt", "w")
                 f.write('\n'.join(self.card_codes))
                 f.close()
                 time.sleep(.1)
 
     def set_cards(self, cards: int = 0):
-        print("### cards", cards)
         self.rfids = []
         self.card_codes = []
         self.cards_to_read = cards
