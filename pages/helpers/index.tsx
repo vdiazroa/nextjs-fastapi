@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react"
+import cardsJSON from "../cards.json"
 
 const Main: FC = () => {
     const [cards, serCards] = useState<string[]>([])
@@ -6,7 +7,7 @@ const Main: FC = () => {
 
     const Card: FC<{ card: string }> = ({ card }) => {
         return <img
-            src={`https://optcgplayer.com/images/EN/${card}.png`}
+            src={`https://optcgplayer.com/images/EN/${(cardsJSON as Record<string, string>)[card]}.png`}
             alt={card}
             // className="dark:invert"
             width={"150PX"}
@@ -21,12 +22,12 @@ const Main: FC = () => {
         const json = (await res.json())
         const { cards: cardsResponse } = json
         if (cardsResponse.length !== cards.length) {
-        console.log("#### json ", cardsResponse)
+            console.log("#### json ", cardsResponse)
 
-            serCards(cardsResponse.map((card:string) => card.toUpperCase()))
+            serCards(cardsResponse.map((card: string) => card.toUpperCase()))
         }
         if (cardsResponse.length < 5) {
-            new Promise((res) => { setTimeout(() => {getCards()}, 3000) })
+            new Promise((res) => { setTimeout(() => { getCards() }, 1500) })
         }
     }
 
@@ -34,7 +35,7 @@ const Main: FC = () => {
 
     useEffect(() => {
         getCards()
-    },[])
+    }, [])
 
     console.log("cards", cards)
     return <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
