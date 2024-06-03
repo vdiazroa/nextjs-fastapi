@@ -15,7 +15,7 @@ class Scanner:
         self.cards_to_read = 0
 
     def read_cards(self):
-        while len(self.rfids) < self.cards_to_read and self.cards_to_read > 0:
+        while len(self.rfids) <= self.cards_to_read and self.cards_to_read > 0:
             id, text = rfid.read()
             if not str(id) in self.rfids:
                 f = open("cards.txt", "w")
