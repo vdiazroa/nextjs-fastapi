@@ -17,12 +17,12 @@ class Scanner:
     def read_cards(self):
         while len(self.rfids) < self.cards_to_read and self.cards_to_read > 0:
             id, text = rfid.read()
-            if not id in self.rfids:
+            if not str(id) in self.rfids:
                 f = open("cards.txt", "w")
-                self.rfids.append(id)
+                self.rfids.append(str(id))
                 print(self.rfids)
                 f = open("cards.txt", "w")
-                f.write('\n'.join(str(self.rfids)))
+                f.write('\n'.join(self.rfids))
                 f.close()
                 time.sleep(.1)
 
