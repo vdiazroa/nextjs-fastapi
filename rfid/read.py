@@ -25,11 +25,12 @@ class Scanner:
                 f.write('\n'.join(self.rfids))
                 f.close()
                 time.sleep(.1)
+        self.rfids = []
+        self.read_cards()
 
     def set_cards(self, cards: int = 0):
         self.rfids = []
         self.cards_to_read = cards
-
 
     def get_card_codes(self):
         return self.rfids
