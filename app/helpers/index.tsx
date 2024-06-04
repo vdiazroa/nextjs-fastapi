@@ -6,7 +6,7 @@ const Main: FC = () => {
     const [cards, serCards] = useState<string[]>([])
 
     const Card: FC<{ card: string }> = ({ card }) => {
-        return <div style={{ margin: "5px" }}>
+        return <div style={{ margin: "1px" }}>
             <img
                 src={`https://optcgplayer.com/images/EN/${(cardsJSON as Record<string, string>)[card]}.png`}
                 alt={card}
@@ -24,7 +24,7 @@ const Main: FC = () => {
         const { cards: cardsResponse } = json
         if (cardsResponse.length !== cards.length) {
             console.log("#### json ", cardsResponse)
-            serCards(cardsResponse.map((card: string) => card.toUpperCase()))
+            serCards(cardsResponse)
         }
         if (loading) {
             setLoading(false)
@@ -43,7 +43,7 @@ const Main: FC = () => {
     console.log("cards", cards)
     return <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
         {cards.map(card => <Card card={card} key={card} />)}
-        {loading ? "loading...." : <button
+        {/* loading ? "loading...." : <button
             onClick={async () => {
                 try {
                     await fetch(cards.length < 5 ? "/api/cards/stop" : "/api/cards/start")
@@ -54,7 +54,7 @@ const Main: FC = () => {
             }
             } >
             {cards.length < 5 ? "Stop" : "Start"}
-        </button>}
+        </button> */}
     </div>
 
 }

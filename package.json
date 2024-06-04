@@ -3,14 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "fastapi-dev": "pip3 install -r requirements.txt && python3 -m uvicorn api.index:app --reload",
+    "inst": "yarn install && pip3 install -r requirements.txt",
+    "fastapi-dev": "python3 -m uvicorn api.index:app --reload",
+    "fastapi-prod": "python3 -m uvicorn api.index:app",
     "next-dev": "next dev",
     "dev": "concurrently \"npm run next-dev\" \"npm run fastapi-dev\"",
     "build": "next build",
-    "start": "next start",
-    "st": "concurrently \"npm run start\" \"npm run fastapi-dev\"",
+    "next-start": "next start",
+    "start": "concurrently \"npm run next-start\" \"npm run fastapi-prod\"",
     "lint": "next lint",
-    "prod:local": "npm run build && npm run st"
+    "prod:local": "npm run build && npm run start"
   },
   "dependencies": {
     "@types/node": "20.2.4",
