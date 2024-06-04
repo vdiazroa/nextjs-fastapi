@@ -1,17 +1,9 @@
 from fastapi import FastAPI
-import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
-import time
 from multiprocessing import Process
 from multiprocessing import Manager
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.OUT)
-
 rfid = SimpleMFRC522()
-channel = 17
-
 manager = Manager()
 
 class Scanner:
@@ -37,15 +29,7 @@ class Scanner:
         self.rfids = []
 
 scanner = Scanner()
-#scanner.read_cards()
-p1=Process(target=scanner.read_cards)
-p1.start()
-#loop = asyncio.get_event_loop()
-#task = loop.run_until_complete(loop.create_task(scanner.read_cards()))
-
-#t = threading.Thread(target=scanner.read_cards, args=())
-
-#t.start()
+Process(target=scanner.read_cards).start()
 
 app = FastAPI()
 
@@ -53,25 +37,3 @@ app = FastAPI()
 def get_cards():
     print("#### get_cards", scanner.get_card_codes())
     return {"status": 200, "cards": scanner.get_card_codes() }
-
-
-
-#p1=Process(target=scanner.read_cards)
-#p1.start()
-
-#p2=Process(target=start_api)
-#p2.start()
-
-#p1.join()
-#p2.join()
-#print("started!!")
-#@app.get("/api/cards/start")
-#def start_reading():
-#    scanner.set_cards(5)
-#    return {"status": 200}
-
-#@app.get("/api/cards/stop")
-#def stop_reading():
-#    scanner.set_cards()
-#    return {"status": 200}
-

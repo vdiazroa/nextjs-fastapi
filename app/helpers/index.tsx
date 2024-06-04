@@ -6,14 +6,13 @@ const Main: FC = () => {
     const [cards, serCards] = useState<string[]>([])
 
     const Card: FC<{ card: string }> = ({ card }) => {
-        return <div style={{ margin: "1px" }}>
-            <img
+        return <img
                 src={`https://optcgplayer.com/images/EN/${(cardsJSON as Record<string, string>)[card]}.png`}
                 alt={card}
                 width={"150px"}
                 height={"200px"}
-            />
-        </div>
+		style={{ margin: "1px" }}
+        />
     }
 
     const getCards = async () => {
