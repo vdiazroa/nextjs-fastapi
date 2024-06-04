@@ -1,19 +1,19 @@
 import { FC, useEffect, useState } from "react"
+import cardsJSON from "../cards.json"
 
 const Main: FC = () => {
     const [loading, setLoading] = useState<boolean>(true)
-    const [reading, setReading] = useState<boolean>(false)
     const [cards, serCards] = useState<string[]>([])
 
-
     const Card: FC<{ card: string }> = ({ card }) => {
-        return <img
-            src={`https://optcgplayer.com/images/EN/${card}.png`}
-            alt={card}
-            // className="dark:invert"
-            width={"30px"}
-            height={"45px"}
-        />
+        return <div style={{ margin: "5px" }}>
+            <img
+                src={`https://optcgplayer.com/images/EN/${(cardsJSON as Record<string, string>)[card]}.png`}
+                alt={card}
+                width={"150px"}
+                height={"200px"}
+            />
+        </div>
     }
 
     const getCards = async () => {
@@ -21,20 +21,16 @@ const Main: FC = () => {
         const res = await fetch("/api/cards")
         console.log("#### res", res)
         const json = (await res.json())
-        console.log("#### json ", json)
-        setLoading(false)
-
-        const { cards: cardsResponse, reading: readingRes } = json
+        const { cards: cardsResponse } = json
         if (cardsResponse.length !== cards.length) {
-            serCards(cards.map(card => card.toUpperCase()))
+            console.log("#### json ", cardsResponse)
+            serCards(cardsResponse.map((card: string) => card.toUpperCase()))
         }
-        if (readingRes !== reading) {
-            setReading(readingRes)
+        if (loading) {
+            setLoading(false)
         }
-
-        if (reading) {
-            await new Promise((res) => { setTimeout(() => res(true), 1000) })
-            getCards()
+        if (cardsResponse.length < 5) {
+            new Promise((res) => { setTimeout(() => { getCards() }, 1500) })
         }
     }
 
@@ -42,7 +38,7 @@ const Main: FC = () => {
 
     useEffect(() => {
         getCards()
-    })
+    }, [])
 
     console.log("cards", cards)
     return <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -50,16 +46,14 @@ const Main: FC = () => {
         {loading ? "loading...." : <button
             onClick={async () => {
                 try {
-                    await fetch(reading ? "/api/cards/stop" : "/api/cards/start")
+                    await fetch(cards.length < 5 ? "/api/cards/stop" : "/api/cards/start")
                 }
                 catch (e) {
                     console.error(e)
                 }
-                setReading(!reading)
-                if (reading) { getCards() }
             }
             } >
-            {reading ? "Stop" : "Start"}
+            {cards.length < 5 ? "Stop" : "Start"}
         </button>}
     </div>
 

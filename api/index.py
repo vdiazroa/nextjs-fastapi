@@ -17,69 +17,45 @@ def relay_off(pin):
     GPIO.output(pin,GPIO.LOW)
 
 class Scanner:
-    def __init__(self):
+    def __init__(self, cards_to_read: int = 5):
         self.rfids = []
-        self.card_codes = []
-        self.cards_to_read = 0
-
+        self.cards_to_read = cards_to_read
+    
     def read_cards(self):
-        print("### len(rfids)", len(self.rfids))
-        print("### cards_to_read", self.cards_to_read)
-        print("### <", len(self.rfids) < self.cards_to_read)
-        print("### >", self.cards_to_read > 0)
-        while len(self.rfids) < self.cards_to_read and self.cards_to_read > 0:
-            print("### 1")
+        while len(self.rfids) <= self.cards_to_read and self.cards_to_read > 0:
             id, text = rfid.read()
-            print("### id",id,text)
-            if not id in self.rfids:
-                print("### 2")
-                self.rfids.append(id)
-                print("text", text)
-                self.card_codes.append(text)
-                print(self.card_codes)
-                time.sleep(.1)
-
-    def set_cards(self, cards: int = 0):
-        print("### cards", cards)
-        self.rfids = []
-        self.card_codes = []
-        self.cards_to_read = cards
-
+            if not str(id) in self.rfids:
+                self.rfids.append(str(id))
+                print(self.rfids)
+        self.read_cards()
 
     def get_card_codes(self):
-        return self.card_codes
-
-    def get_reading(self):
-        return len(self.card_codes) < self.cards_to_read
-
+        return self.rfids
+    
+    def set_cards(self, cards: int = 0):
+        self.cards_to_read = cards
+        self.rfids = []
 
 scanner = Scanner()
-scanner.set_cards(5)
-scanner.read_cards()
 
 app = FastAPI()
 
+@app.get("/api/cards")
+def get_cards():
+    print("#### get_cards", scanner.get_card_codes())
+    return {"status": 200, "cards": scanner.get_card_codes() }
+
 @app.get("/api/cards/start")
 def start_reading():
-    print("### start_reading")
-    # scanner.set_cards(5)
-    print("### read_cards")
-    # scanner.read_cards()
-    print("### read_cards 2")
-
+    scanner.set_cards(5)
     return {"status": 200}
 
 
 @app.get("/api/cards/stop")
 def stop_reading():
-    scanner.set_cards(5)
+    scanner.set_cards()
     return {"status": 200}
 
-@app.get("/api/cards")
-def get_cards():
-    print("#### get_cards 0")
-    print("#### get_cards 1",scanner.get_card_codes())
-    print("#### get_cards 2",scanner.get_reading())
-    return {"status": 200, "cards": scanner.get_card_codes(), "reading": scanner.get_reading() }
+scanner.read_cards()
 
 
