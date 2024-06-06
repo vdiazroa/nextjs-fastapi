@@ -18,7 +18,7 @@ class Scanner:
             if not id in self.rfids:
                 self.rfids.append(id)
                 print(self.rfids)
-        self.rfids = manager.list()
+        self.rfids[:] = []
         self.read_cards()
 
     def get_card_codes(self):
@@ -26,7 +26,7 @@ class Scanner:
 
     def set_cards(self, cards: int = 0):
         self.cards_to_read = cards
-        self.rfids = manager.list()
+        self.rfids[:] = []
 
 scanner = Scanner()
 Process(target=scanner.read_cards).start()
